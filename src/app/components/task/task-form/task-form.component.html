@@ -1,0 +1,88 @@
+<div class="container ">
+    <div class="card">
+        <div class="card-header d-flex justify-content-center">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <h4>Crear Nueva Tarea</h4>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <form (ngSubmit)="submit()" [formGroup]="taskForm">
+
+                <div class="form-group">
+                    <div class="card">
+                        <label for="taskName">Nombre de la tarea:</label>
+                        <input id="taskName" formControlName="name" type="text" required minlength
+                            placeholder="Nombre breve de la tarea" />
+                        <div class="alert alert-danger"
+                            *ngIf="taskForm.get('name')?.invalid && (taskForm.get('name')?.dirty || taskForm.get('name')?.touched)">
+                            <span *ngIf="taskForm.get('name')?.errors?.['required']">El nombre es
+                                obligatorio.</span>
+                            <span *ngIf="taskForm.get('name')?.errors?.['minlength']">El nombre debe tener al menos
+                                5 caracteres.</span>
+                        </div>
+
+                        <label for="taskDeadline">Fecha Limite:</label>
+                        <input id="taskDeadline" formControlName="deadline" type="date" required
+                            placeholder="defina una fecha limite" />
+                        <div class="alert alert-danger"
+                            *ngIf="taskForm.get('deadline')?.invalid && (taskForm.get('deadline')?.dirty || taskForm.get('deadline')?.touched)">
+                            <span *ngIf="taskForm.get('deadline')?.errors?.['required']">La fecha es obligatoria.</span>
+                        </div>
+                    </div>
+
+                    <h6><b> Personas Asociadas:</b></h6>
+                    <div class="card" formArrayName="people" *ngIf="getPeople && getPeople.controls">
+                        <div *ngFor="let person of getPeople.controls; let i = index" [formGroupName]="i">
+                            <h3>Persona {{ i + 1 }}</h3>
+
+                            <label for="perName">Nombre Completo:</label>
+                            <input id="perName" formControlName="personName" type="text" required minlength="5"
+                                placeholder="Nombre completo del asociado" />
+                            <div class="alert alert-danger"
+                                *ngIf="taskForm.get('personName')?.invalid && (taskForm.get('personName')?.dirty || taskForm.get('personName')?.touched)">
+                                <span *ngIf="taskForm.get('personName')?.errors?.['required']">El nombre es
+                                    obligatorio.</span>
+                                <span *ngIf="taskForm.get('personName')?.errors?.['minlength']">El nombre debe tener
+                                    al menos 5 caracteres.</span>
+                            </div>
+
+                            <label for="personAge">Edad:</label>
+                            <input id="personAge" formControlName="perAge" type="number" required min="18"
+                                placeholder="Edad de la persona" />
+                            <div class="alert alert-danger"
+                                *ngIf="taskForm.get('perAge')?.invalid && (taskForm.get('perAge')?.dirty || taskForm.get('perAge')?.touched)">
+                                <span *ngIf="taskForm.get('perAge')?.errors?.['required']">El nombre es
+                                    obligatorio.</span>
+                                <span *ngIf="taskForm.get('perAge')?.errors?.['min']">Debe ser mayor de 18
+                                    años.</span>
+                            </div>
+
+                            <div formArrayName="skills" *ngIf="!(getSkills && getSkills.controls)">
+                                <h4>Habilidades</h4>
+                                <div *ngFor="let skill of getSkills.controls; let j = index" [formGroupName]="j">
+                                    <label for="skill-{{ i }}-{{ j }}">Habilidad {{ j + 1 }}</label>
+                                    <input id="skill-{{ i }}-{{ j }}" [formControlName]="j" type="text" required="" />
+                                    <div *ngIf="skill.invalid && skill.touched">
+                                        <span *ngIf="taskForm.get('j')?.errors?.['required']">La habilidad es
+                                            obligatoria.</span>
+                                    </div>
+                                </div>
+                                <!-- Botón para agregar nueva habilidad -->
+                                <button type="button" (click)="addSkill(i)">Añadir Habilidad</button>
+                            </div>
+                            <button type="button" (click)="removePerson(i)">Eliminar Persona</button>
+
+                        </div>
+
+                    </div>
+
+                    <button type="button" (click)="addPerson()">Añadir Persona</button>
+                    <button class="btn btn-success" [disabled]="taskForm.invalid">Guardar Tarea</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
+</div>

@@ -1,0 +1,24 @@
+/* Estilos globales */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Asegura que el padding y el border se incluyan en el tamaño total de los elementos */
+}
+
+/* Contenedor principal con padding */
+.container {
+  padding: 16px; /* Espacio interno alrededor del contenido */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra alrededor del contenedor */
+  background-color: #fff; /* Fondo blanco para el contenedor */
+  margin: 10px; /* Separación de 10px respecto a otros elementos */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+/* Ajustes para pantallas de tablets y superiores */
+@media (min-width: 768px) {
+  .container {
+    padding: 32px; /* Aumenta el padding en pantallas más grandes */
+    margin: 20px; /* Aumenta el margen en pantallas más grandes */
+  }
+}
